@@ -1,0 +1,17 @@
+{
+  "appName": "OPC Demo",
+  "version": "0.1.0",
+  "models": [
+    {
+      "name": "Todo",
+      "fields": [
+        { "name": "id", "type": "string", "primary": true },
+        { "name": "title", "type": "string" },
+        { "name": "completed", "type": "boolean" }
+      ]
+    }
+  ],
+  "api": {
+    "basePath": "/api/v1"
+  }
+}
