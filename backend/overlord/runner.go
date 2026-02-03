@@ -27,8 +27,29 @@ func CollectLogs() (string, error) {
 		return "", nil
 	}
 
-	latest := entries[len(entries)-1]
-	data, err := os.ReadFile(filepath.Join(logDir, latest.Name()))
+	// Find latest file by modification time
+	var latestEntry os.DirEntry
+	var latestTime int64 = 0
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		info, err := entry.Info()
+		if err != nil {
+			continue
+		}
+		if info.ModTime().Unix() > latestTime {
+			latestTime = info.ModTime().Unix()
+			latestEntry = entry
+		}
+	}
+
+	if latestEntry == nil {
+		return "", nil
+	}
+
+	data, err := os.ReadFile(filepath.Join(logDir, latestEntry.Name()))
 	if err != nil {
 		return "", err
 	}

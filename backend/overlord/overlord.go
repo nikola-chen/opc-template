@@ -1,5 +1,9 @@
 package overlord
 
+import (
+	"opc-template/backend/overlord/ai"
+)
+
 type Result int
 
 const (
@@ -15,6 +19,7 @@ const (
 // - 驱动对应修复流程
 type Overlord struct {
 	MaxRetry int
+	AIClient ai.Client
 }
 
 // Run 执行一次完整的自愈闭环
@@ -59,7 +64,7 @@ func (o *Overlord) CodeFixFlow() Result {
 	}
 
 	// Apply fix
-	if err := ApplyFix(analysis); err != nil {
+	if err := o.ApplyFix(analysis); err != nil {
 		return NeedHuman
 	}
 

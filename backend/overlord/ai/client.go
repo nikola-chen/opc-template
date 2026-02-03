@@ -11,7 +11,12 @@ type FixResponse struct {
 	Reason string
 }
 
+type GenerateRequest struct {
+	Prompt string
+}
+
 type Client interface {
 	Fix(req FixRequest) (FixResponse, error)
+	Generate(req GenerateRequest) (string, error)
 	Name() string
 }
